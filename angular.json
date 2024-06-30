@@ -20,6 +20,9 @@
               "zone.js",
               "@angular/localize/init"
             ],
+            "optimization": {
+              "fonts": false
+            },
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -36,7 +39,11 @@
             "prerender": true,
             "ssr": {
               "entry": "server.ts"
-            }
+            },
+            "allowedCommonJsDependencies": [
+              "@grpc/grpc-js",
+              "@grpc/proto-loader"
+            ] 
           },
           "configurations": {
             "production": {
