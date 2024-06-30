@@ -71,12 +71,17 @@ export class ExpenseFormComponent implements OnInit {
       console.log('Form is invalid', this.expenseForm.errors);
     }
   }
+
   getExpenseData(key: string) {
     this.expenseService.getExpense(key).snapshotChanges().subscribe({
       next: (data) =>{
         let expense = data.payload.toJSON() as IExpense;
-        this.expenseForm.setValue(expense);
+        if (expense && expense.price != null) {
+          this.expenseForm.setValue(expense);
+        } else {
+          console.error('Invalid expense data:', expense);
+        }
       }
-    })
+    });
   }
 }
