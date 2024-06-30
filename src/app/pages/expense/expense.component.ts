@@ -28,31 +28,33 @@ export class ExpenseComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.expenses = [];
-
+          this.totalExpense = 0;
           data.forEach((item) => {
             let expense = item.payload.toJSON() as IExpense;
-            this.totalExpense += parseInt(expense.price);
-
-            this.expenses.push({
-              key: item.key || '',
-              price: expense.price,
-              title: expense.title,
-              date: expense.date,
-              description: expense.description,
-            });
+            if (expense && expense.price != null) {
+              this.totalExpense += parseFloat(expense.price);
+              this.expenses.push({
+                key: item.key || '',
+                price: expense.price,
+                title: expense.title,
+                date: expense.date,
+                description: expense.description,
+              });
+            } else {
+              console.error('Invalid expense data:', expense); // Log invalid expense
+            }
           });
         },
       });
   }
 
-  editExpense(key:string){
-    this.router.navigate(['/expense-form/'+key]);
+  editExpense(key: string) {
+    this.router.navigate(['/expense-form/' + key]);
   }
 
-  removeExpense(key:string){
-    if(window.confirm('Are you sure you want to remove?')){
-
+  removeExpense(key: string) {
+    if (window.confirm('Are you sure you want to remove?')) {
+      this.expenseService.deleteExpense(key)
     }
-    this.expenseService.deleteExpense(key);
   }
 }

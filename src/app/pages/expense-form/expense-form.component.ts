@@ -47,17 +47,30 @@ export class ExpenseFormComponent implements OnInit {
 
   onSubmit() {
     if (this.expenseForm.valid) {
-      if(this.expenseId != ''){
-        this.expenseService.updateExpense(this.expenseId, this.expenseForm.value);
-      }else{
-        this.expenseService.addExpense(this.expenseForm.value);
+      const formData = this.expenseForm.value;
+      
+      if (this.expenseId) {
+        // Updating existing expense
+        this.expenseService.updateExpense(this.expenseId, formData)
+          .then(() => {
+            console.log('Expense updated successfully');
+            this.router.navigate(['']);
+          })
+          .catch(error => console.error('Error updating expense:', error));
+      } else {
+        // Adding new expense
+        this.expenseService.addExpense(formData)
+          .then(() => {
+            console.log('New expense added successfully');
+            this.router.navigate(['']);
+          })
+          .catch(error => console.error('Error adding new expense:', error));
       }
-      this.router.navigate(['']);
     } else {
       this.expenseForm.markAllAsTouched();
+      console.log('Form is invalid', this.expenseForm.errors);
     }
   }
-
   getExpenseData(key: string) {
     this.expenseService.getExpense(key).snapshotChanges().subscribe({
       next: (data) =>{

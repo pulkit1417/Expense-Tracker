@@ -1,61 +1,66 @@
-<div class="row">
-  <div class="col-lg-6">
-    <h4>Expense Form</h4>
-
-    <form [formGroup]="expenseForm" (submit)="onSubmit()">
-      <div class="mb-3">
-        <label for="amount" class="form-label">Amount</label>
-        <input
-          type="text"
-          class="form-control"
-          id="amount"
-          placeholder="Amount"
-          formControlName="price"
-        />
-        @if(expenseForm.get('price')?.hasError('required') && expenseForm.get('price')?.touched){
-            <div class="form-text text-danger fw-bold">Price is Required</div>
-            }
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label for="title" class="form-label">Title</label>
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+      <h4 class="mb-4">Expense Form</h4>
+      
+      <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="amount" class="form-label">Amount</label>
           <input
             type="text"
             class="form-control"
-            id="title"
-            placeholder="Title"
-            formControlName="title"
+            id="amount"
+            placeholder="Amount"
+            formControlName="price"
           />
-          @if(expenseForm.get('title')?.hasError('required') && expenseForm.get('title')?.touched){
-            <div class="form-text text-danger fw-bold">Title is Required</div>
-            }
+          @if(expenseForm.get('price')?.hasError('required') && expenseForm.get('price')?.touched){
+            <div class="form-text text-danger fw-bold">Price is Required</div>
+          }
         </div>
-        <div class="col-md-6">
-          <label for="date" class="form-label">Date</label>
-          <input
-            type="date"
+        
+        <div class="row mb-3">
+          <div class="col-12 col-sm-6 mb-3 mb-sm-0">
+            <label for="title" class="form-label">Title</label>
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              placeholder="Title"
+              formControlName="title"
+            />
+            @if(expenseForm.get('title')?.hasError('required') && expenseForm.get('title')?.touched){
+              <div class="form-text text-danger fw-bold">Title is Required</div>
+            }
+          </div>
+          <div class="col-12 col-sm-6">
+            <label for="date" class="form-label">Date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="date"
+              placeholder="Date"
+              formControlName="date"
+            />
+            @if(expenseForm.get('date')?.hasError('required') && expenseForm.get('date')?.touched){
+              <div class="form-text text-danger fw-bold">Date is Required</div>
+            }
+          </div>
+        </div>
+        
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea
             class="form-control"
-            id="date"
-            placeholder="Date"
-            formControlName="date"
-          />
-          @if(expenseForm.get('date')?.hasError('required') && expenseForm.get('date')?.touched){
-            <div class="form-text text-danger fw-bold">Date is Required</div>
-            }
+            id="description"
+            rows="3"
+            formControlName="description"
+          ></textarea>
         </div>
-      </div>
-
-      <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
-        <textarea
-          class="form-control"
-          id="description"
-          rows="3"
-          formControlName="description"
-        ></textarea>
-      </div>
-
-      <button type="submit" class="btn btn-success" >Save Changes</button>
-    </form>
+        
+        <div class="d-grid">
+          <button type="submit" class="btn btn-success">Save Changes</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
