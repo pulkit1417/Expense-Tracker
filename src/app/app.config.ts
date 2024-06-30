@@ -15,7 +15,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { environment } from '../environments/environment.development';
+import { firebaseConfig } from './constants/constants';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,7 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideHttpClient(withFetch()),
     importProvidersFrom([
-      AngularFireModule.initializeApp(environment),
+      AngularFireModule.initializeApp(firebaseConfig),
       AngularFireAuthModule,
       AngularFireDatabaseModule,
       AngularFirestoreModule,
