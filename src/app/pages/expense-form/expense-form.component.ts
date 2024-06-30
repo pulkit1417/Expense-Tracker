@@ -30,10 +30,10 @@ export class ExpenseFormComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {
     this.expenseForm = this.fb.group({
-      price: new FormControl('', [Validators.required]),
-      title: new FormControl('', [Validators.required]),
-      date: new FormControl('', [Validators.required]),
-      description: new FormControl(''),
+      title: ['', Validators.required],
+      price: ['', Validators.required],
+      date: ['', Validators.required],
+      description: [''],
     });
   }
 
@@ -49,48 +49,69 @@ export class ExpenseFormComponent implements OnInit {
   onSubmit() {
     if (this.expenseForm.valid) {
       const formData = this.expenseForm.value;
-      
+
       if (this.expenseId) {
         // Updating existing expense
-        this.expenseService.updateExpense(this.expenseId, formData)
+        this.expenseService
+          .updateExpense(this.expenseId, formData)
           .then(() => {
-            console.log('Expense updated successfully');
+            // console.log('Expense updated successfully');
             this.router.navigate(['']);
           })
-          .catch(error => console.error('Error updating expense:', error));
+          .catch((error) => 
+            console.error('Error updating expense:', error)
+        );
       } else {
         // Adding new expense
-        this.expenseService.addExpense(formData)
+        this.expenseService
+          .addExpense(formData)
           .then(() => {
-            console.log('New expense added successfully');
+            // console.log('New expense added successfully');
             this.router.navigate(['']);
           })
-          .catch(error => console.error('Error adding new expense:', error));
+          .catch((error) => 
+            console.error('Error adding new expense:', error)
+        );
       }
     } else {
       this.expenseForm.markAllAsTouched();
-      console.log('Form is invalid', this.expenseForm.errors);
+      // console.log('Form is invalid', this.expenseForm.errors);
     }
   }
   getExpenseData(key: string) {
-    this.expenseService.getExpense(key).snapshotChanges().subscribe({
-      next: (data) => {
-        let expense = data.payload.toJSON() as IExpense;
-        
-        // Ensure all required properties exist before setting form value
-        const formValue = {
-          id: expense?.key ?? '',
-          title: expense?.title ?? '',    
-          date: expense?.date ?? null,
-          category: expense?.description ?? '',
-          price: expense?.price ?? 0
-        };
-  
-        this.expenseForm.patchValue(formValue);
-      },
-      error: (error) => {
-        console.error('Error fetching expense data:', error);
-      }
-    });
+    this.expenseService
+      .getExpense(key)
+      .snapshotChanges()
+      .subscribe({
+        next: (data) => {
+          // console.log('Received data:', data);
+          if (data && data.payload) {
+            let expense = data.payload.toJSON() as IExpense;
+            // console.log('Expense object:', expense);
+
+            // Ensure all required properties exist before setting form value
+            const formValue = {
+              title: expense?.title ?? '',
+              date: expense?.date ?? null,
+              description: expense?.description ?? '',
+              price: expense?.price ?? 0,
+            };
+
+            // console.log('Form value to be set:', formValue);
+            this.expenseForm.patchValue(formValue);
+
+            // Store the key separately if needed
+            this.expenseId = key;
+          } else {
+            // console.log('No data received for this expense');
+            // Optionally reset the form or handle this case
+            this.expenseForm.reset();
+            this.expenseId = '';
+          }
+        },
+        error: (error) => {
+          // console.error('Error fetching expense data:', error);
+        },
+      });
   }
 }

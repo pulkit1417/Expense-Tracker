@@ -1,7 +1,7 @@
 export interface IExpense{
-    key?:string, 
-    price:string,
-    title:string,
-    date:string,
-    description:string
+    key?: string;
+    title: string;
+    price: string;
+    date: string | Date;
+    description?: string;
 }

@@ -41,7 +41,7 @@ export class ExpenseComponent implements OnInit {
                 description: expense.description,
               });
             } else {
-              console.error('Invalid expense data:', expense); // Log invalid expense
+              // console.error('Invalid expense data:', expense); // Log invalid expense
             }
           });
         },
