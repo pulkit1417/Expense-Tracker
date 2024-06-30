@@ -1,56 +1,65 @@
 .navbar {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: #f8f9fa;
-    padding: 10px 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-  }
-  .navbar-2{    
-    margin-left: 10rem;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-  }
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #f8f9fa;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 60px; /* Set a fixed height for the navbar */
+}
 
-  .navbar-brand a {
-    text-decoration: none;
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #333;
-    margin-right: 20px;
-  }
-  
-  .navbar-tabs {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-  }
-  
-  .nav-item {
-    display: inline-block;
-  }
-  
-  .nav-link {
-    color: #333;
-    text-decoration: none;
-    padding: 10px 15px;
-    transition: background-color 0.3s;
-    border-radius: 5px;
-  }
-  
-  .nav-link:hover {
-    background-color: #d1d3d5;
-  }
+.navbar-2 {
+  margin-left: 10rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+}
 
-  .container{
-    margin-top:6rem;
-    margin-left: 10.5rem;
-  }
+.navbar-logo {
+  height: 40px; /* Adjust this value to make the logo smaller or larger */
+  width: auto; /* Maintain aspect ratio */
+  margin-right: 15px;
+}
+
+.navbar-brand a {
+  text-decoration: none;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+  margin-right: 20px;
+}
+
+.navbar-tabs {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.nav-item {
+  display: inline-block;
+}
+
+.nav-link {
+  color: #333;
+  text-decoration: none;
+  padding: 10px 15px;
+  transition: background-color 0.3s;
+  border-radius: 5px;
+}
+
+.nav-link:hover {
+  background-color: #d1d3d5;
+}
+
+.container {
+  margin-top: 70px; /* Adjusted to account for the navbar height */
+  margin-left: 10.5rem;
+}

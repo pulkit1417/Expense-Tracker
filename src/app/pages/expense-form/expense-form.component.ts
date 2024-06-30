@@ -1,31 +1,69 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
+import { Component, OnInit } from '@angular/core';
+import {
+  ReactiveFormsModule,
+  FormGroup,
+  FormBuilder,
+  FormControl,
+  Validators,
+} from '@angular/forms';
+import { ExpenseService } from '../../core/services/expense.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { IExpense } from '../../core/models/common.models';
 
 @Component({
   selector: 'app-expense-form',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './expense-form.component.html',
-  styleUrl: './expense-form.component.css'
+  styleUrl: './expense-form.component.css',
 })
-export class ExpenseFormComponent {
-  expenseForm!:FormGroup;
+export class ExpenseFormComponent implements OnInit {
+  expenseForm!: FormGroup;
+  expenseId = '';
 
-  constructor(private fb: FormBuilder){
+  constructor(
+    private fb: FormBuilder,
+    private expenseService: ExpenseService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {
     this.expenseForm = this.fb.group({
-      price: new FormControl('',[Validators.required]),
-      title: new FormControl('',[Validators.required]),
-      date: new FormControl('',[Validators.required]),
-      description: new FormControl('')
-    })
+      price: new FormControl('', [Validators.required]),
+      title: new FormControl('', [Validators.required]),
+      date: new FormControl('', [Validators.required]),
+      description: new FormControl(''),
+    });
   }
 
-  onSubmit(){
-    if(this.expenseForm.valid){
-      console.log(this.expenseForm.value);
-    }else{
+  ngOnInit(): void {
+    this.activatedRoute.params.subscribe({
+      next: (params) => {
+        this.expenseId = params['id'];
+        this.getExpenseData(this.expenseId);
+      },
+    });
+  }
+
+  onSubmit() {
+    if (this.expenseForm.valid) {
+      if(this.expenseId != ''){
+        this.expenseService.updateExpense(this.expenseId, this.expenseForm.value);
+      }else{
+        this.expenseService.addExpense(this.expenseForm.value);
+      }
+      this.router.navigate(['']);
+    } else {
       this.expenseForm.markAllAsTouched();
     }
+  }
+
+  getExpenseData(key: string) {
+    this.expenseService.getExpense(key).snapshotChanges().subscribe({
+      next: (data) =>{
+        let expense = data.payload.toJSON() as IExpense;
+        this.expenseForm.setValue(expense);
+      }
+    })
   }
 }
