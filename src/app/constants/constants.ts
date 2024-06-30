@@ -1,10 +1,11 @@
-import {environment} from '../../environments/environment.development'
+import { env } from "process";
+
 export const firebaseConfig = {
-    apiKey: environment.apiKey,
-    authDomain: environment.authDomain,
-    databaseURL: environment.databaseURL,
-    projectId: environment.projectId,
-    storageBucket: environment.storageBucket,
-    messagingSenderId: environment.messagingSenderId,
-    appId: environment.appId
+    apiKey: env["API_KEY"],
+    authDomain: env["AUTH_DOMAIN"],
+    databaseURL: env["DATABASE_URL"],
+    projectId: env["PROJECT_ID"],
+    storageBucket: env["STORAGE_ID"],
+    messagingSenderId: env["MESSAGING_SENDER_ID"],
+    appId: env["APP_ID"],
 };
