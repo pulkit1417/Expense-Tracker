@@ -1,7 +1,7 @@
 # Expense Tracker
 
 ## Live Demo
-[View the live application here](![https://your-live-link-here.com](https://crud-app-blond-psi.vercel.app/))
+View the live application here: https://your-live-link-here.com](https://crud-app-blond-psi.vercel.app/
 
 ## Description
 Expense Tracker is a web application designed to help users manage their personal finances by tracking expenses. It provides an intuitive interface for adding, editing, and analyzing expenses, helping users gain better control over their spending habits.
