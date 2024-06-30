@@ -10,6 +10,7 @@ import {
 import { ExpenseService } from '../../core/services/expense.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IExpense } from '../../core/models/common.models';
+import { title } from 'node:process';
 
 @Component({
   selector: 'app-expense-form',
@@ -71,16 +72,24 @@ export class ExpenseFormComponent implements OnInit {
       console.log('Form is invalid', this.expenseForm.errors);
     }
   }
-
   getExpenseData(key: string) {
     this.expenseService.getExpense(key).snapshotChanges().subscribe({
-      next: (data) =>{
+      next: (data) => {
         let expense = data.payload.toJSON() as IExpense;
-        if (expense && expense.price != null) {
-          this.expenseForm.setValue(expense);
-        } else {
-          console.error('Invalid expense data:', expense);
-        }
+        
+        // Ensure all required properties exist before setting form value
+        const formValue = {
+          id: expense?.key ?? '',
+          title: expense?.title ?? '',    
+          date: expense?.date ?? null,
+          category: expense?.description ?? '',
+          price: expense?.price ?? 0
+        };
+  
+        this.expenseForm.patchValue(formValue);
+      },
+      error: (error) => {
+        console.error('Error fetching expense data:', error);
       }
     });
   }
